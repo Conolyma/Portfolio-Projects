@@ -114,4 +114,39 @@ on dea.location = vac.location
 and dea.date = vac.date;
 
 select *
-from percentpopulationvacc
+from percentpopulationvacc;
+
+-- Queries used for Tableu Visualizations
+
+-- Table 1
+SELECT sum(new_cases) as total_cases, sum(cast(new_deaths as signed)) as total_deaths, sum(cast(new_deaths as signed))/sum(new_cases)*100 as DeathPercentage
+from portfolio_schema.coviddeaths
+where continent is not null
+order by 1,2;
+
+-- Table 2
+select location, sum(cast(new_deaths as signed)) as TotalDeathCount
+from portfolio_schema.coviddeaths
+where continent = ''
+and location not in ('European Union', 'International', 'World')
+Group by location
+Order by TotalDeathCount desc;
+
+-- Table 3
+select location, population, max(total_cases) as HighestInfectionCount, max((total_cases/population)*100) as PercentPopulationInfected
+from portfolio_schema.coviddeaths
+group by location, population
+order by PercentPopulationInfected desc;
+
+-- Table 4
+Select location, population, date, max(total_cases) as HighestInfectionCount, max((total_cases/population))*100 as PercentPopulationInfected
+from portfolio_schema.coviddeaths
+group by location, population, date
+order by PercentPopulationInfected desc;
+
+Select *
+from portfolio_schema.coviddeaths
+where location = 'Asia
+';
+
+-- this guided project is incredibly outdated, I'm having a ton of problems with it, I'm going to drop it. 
